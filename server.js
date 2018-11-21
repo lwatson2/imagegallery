@@ -8,6 +8,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
 const crypto = require("crypto");
+const Item = require("./models/Item");
 const app = express();
 
 // Middleware
@@ -15,7 +16,7 @@ app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 
 const db = config.MONGODB_URI;
-
+let newItem;
 let gfs;
 //Connect to mongo db
 const conn = mongoose.createConnection(db);
@@ -37,7 +38,8 @@ const storage = new GridFsStorage({
         const filename = buf.toString("hex") + path.extname(file.originalname);
         const fileInfo = {
           filename: filename,
-          bucketName: "uploads"
+          bucketName: "uploads",
+          desc: "test"
         };
         resolve(fileInfo);
       });
@@ -78,7 +80,13 @@ app.get("/image", (req, res) => {
 
 //route post /upload
 
-app.post("/upload", upload.single("file"), (req, res) => {
+app.post("/upload", upload.single("file"), async (req, res) => {
+  const newItem = new Item({
+    desc: req.body.text
+  });
+  const savedItem = await newItem.save();
+  res.send(savedItem)
+  console.log(req.body.text);
   res.redirect("/");
 });
 
@@ -90,8 +98,11 @@ app.get("/files", (req, res) => {
         err: "No files exist"
       });
     }
-
-    return res.json(files);
+    Item.find().then(item => (newItem = item));
+    return res.json({
+      files,
+      newItem
+    });
   });
 });
 
@@ -124,6 +135,16 @@ app.get("/image/:filename", (req, res) => {
         err: "not a image"
       });
     }
+  });
+});
+//Delete request
+// route /files/:id
+app.delete("/files/:id", (req, res) => {
+  gfs.remove({ _id: req.params.id, root: "uploads" }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+    res.redirect("/");
   });
 });
 

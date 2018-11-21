@@ -5,18 +5,20 @@ import "./App.css";
 class App extends Component {
   state = {
     files: false,
-    images: []
+    images: [],
+    desc: []
   };
 
   componentDidMount() {
     axios.get("/files").then(all =>
       this.setState({
-        images: all.data
+        images: all.data.files,
+        desc: all.data.newItem
       })
     );
   }
   render() {
-    console.log(this.props);
+    console.log(this.state);
     return (
       <div className="App">
         <div>
@@ -35,11 +37,39 @@ class App extends Component {
                 Choose file
               </label>
             </div>
+            <div>
+              <input type="text" name="text" id="text" />
+              <label htmlFor="text">Choose text</label>
+            </div>
             <input type="submit" value="submit" />
           </form>
-          {this.state.images.map(image => (
-            <img src={image.filename} alt="test" />
-          ))}
+          {this.state.images ? (
+            <div>
+              {this.state.images.map(file => (
+                <div>
+                  <img
+                    src={"image/" + file.filename}
+                    alt="test"
+                    style={{ width: "150px", height: "150px" }}
+                  />
+                  <a href={`${file.filename}`}>
+                    {" "}
+                    <p>{`${file.filename}`}</p>
+                  </a>
+                  <form
+                    action={`/files/${file._id}?_method=DELETE`}
+                    method="POST"
+                  >
+                    <button>Delete</button>
+                  </form>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <p> No files found </p>
+            </div>
+          )}
         </div>
       </div>
     );
