@@ -8,7 +8,9 @@ const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
 const crypto = require("crypto");
-const Item = require("./models/Item");
+const user = require("./models/User");
+//
+const users = require("./routes/api/users");
 const app = express();
 
 // Middleware
@@ -18,12 +20,14 @@ app.use(methodOverride("_method"));
 const db = config.MONGODB_URI;
 let newItem;
 let gfs;
+
 //Connect to mongo db
 const conn = mongoose.createConnection(db);
 conn.once("open", () => {
   // Initialize stream
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection("uploads");
+  console.log("mongoose connected");
 });
 
 //Create storage obj
@@ -85,7 +89,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     desc: req.body.text
   });
   const savedItem = await newItem.save();
-  res.send(savedItem)
+  res.send(savedItem);
   console.log(req.body.text);
   res.redirect("/");
 });
@@ -148,6 +152,9 @@ app.delete("/files/:id", (req, res) => {
   });
 });
 
+app.use("/signup", users);
+
 app.listen(config.PORT, () => {
   console.log(`Server started on port ${config.PORT}`);
 });
+module.exports.conn = conn;
