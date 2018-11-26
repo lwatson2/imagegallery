@@ -102,10 +102,9 @@ app.get("/files", (req, res) => {
         err: "No files exist"
       });
     }
-    Item.find().then(item => (newItem = item));
+
     return res.json({
-      files,
-      newItem
+      files
     });
   });
 });
@@ -152,7 +151,7 @@ app.delete("/files/:id", (req, res) => {
   });
 });
 
-app.use("/signup", users);
+app.use("/login", users);
 
 app.listen(config.PORT, () => {
   console.log(`Server started on port ${config.PORT}`);

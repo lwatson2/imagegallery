@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bcrypt = require("bcrypt");
 const config = require("../../config");
+const auth = require("../../auth");
 const saltRounds = 10;
 const router = express.Router();
 const db = require("../../server");
@@ -27,6 +28,26 @@ router.post("/signup", (req, res) => {
         console.log(err);
       }
     });
+  });
+});
+
+router.post("/signin", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await auth.authenticate(email, password);
+    res.json({
+      isLoggedIn: true
+    });
+  } catch (error) {
+    res.json({
+      isLoggedIn: false
+    });
+  }
+});
+router.post("/signout", async (req, res) => {
+  res.json({
+    isLoggedIn: false
   });
 });
 
