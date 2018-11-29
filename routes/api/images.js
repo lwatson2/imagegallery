@@ -12,10 +12,10 @@ const router = express.Router();
 const db = config.MONGODB_URI;
 
 //Create storage obj
+let gfs;
 router.use(methodOverride("_method"));
 
 const conn = mongoose.createConnection(config.MONGODB_URI);
-
 conn.once("open", () => {
   // Initialize stream
   gfs = Grid(conn.db, mongoose.mongo);
@@ -94,10 +94,12 @@ router.get("/files", (req, res) => {
         err: "No files exist"
       });
     }
-
-    return res.json({
-      files
-    });
+    if (err) {
+      return res.status(501).json({
+        err: "Something went wrong"
+      });
+    }
+    return res.send(files);
   });
 });
 
@@ -123,6 +125,7 @@ router.get("/image/:filename", (req, res) => {
     //Check if image
     if (file.contentType === "image/jpeg" || file.contentType === "img/png") {
       // Read output to browser
+      console.log(file.filename);
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
     } else {

@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const config = require("./config");
 const bodyParser = require("body-parser");
-
+const router = express.Router();
 const user = require("./models/User");
 const images = require("./routes/api/images");
 const users = require("./routes/api/users");
@@ -22,7 +22,7 @@ let gfs;
 
 //Connect to mongo db
 const conn = mongoose.createConnection(config.MONGODB_URI);
-
+app.use("/", router);
 app.use("/images", images);
 
 app.use("/login", users);

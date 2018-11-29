@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import ImageGallery from "./ImageGallery";
 import axios from "axios";
 
-const Button = styled.button`
-  display: inline-block;
-  color: black;
-  border: transparent;
-`;
 const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
   color: palevioletred;
+  border: line-dotted;
 `;
 export default class Home extends Component {
   getfile = () => {
@@ -19,8 +16,10 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.getfile}>Hi!</Button>
         <Title>Hello world</Title>
+        <div>
+          <ImageGallery />
+        </div>
       </div>
     );
   }

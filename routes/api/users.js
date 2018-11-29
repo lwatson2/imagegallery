@@ -23,7 +23,6 @@ router.post("/signup", (req, res) => {
       try {
         const savedItem = await newUser.save();
         res.send(savedItem);
-        console.log(savedItem);
       } catch (err) {
         console.log(err);
       }
