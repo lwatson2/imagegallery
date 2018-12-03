@@ -33,7 +33,7 @@ export default class Home extends Component {
         <div>
           <ImageGallery />
         </div>
-        <Route exact path="upload" component={Upload} />
+        <Route exact path="upload" component={Upload} content="Upload file" />
       </div>
     );
   }

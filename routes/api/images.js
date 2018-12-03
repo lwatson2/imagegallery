@@ -77,12 +77,7 @@ router.get("/image", (req, res) => {
 //route post /upload
 
 router.post("/upload", upload.single("file"), async (req, res) => {
-  const newItem = new Item({
-    desc: req.body.text
-  });
-  const savedItem = await newItem.save();
-  res.send(savedItem);
-  console.log(req.body.text);
+  console.log("test");
   res.redirect("/");
 });
 
@@ -125,7 +120,6 @@ router.get("/image/:filename", (req, res) => {
     //Check if image
     if (file.contentType === "image/jpeg" || file.contentType === "img/png") {
       // Read output to browser
-      console.log(file.filename);
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
     } else {

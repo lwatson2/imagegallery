@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const UploadWrapper = styled.div`
   @media only screen and (max-width: 479px) {
@@ -19,9 +20,6 @@ const InputUpload = styled.input`
   opacity: 0;
 `;
 const CustomFile = styled.span`
-  &::after {
-    content: ${this.state.value};
-  }
   &::before {
     background-color: #eee;
     position: absolute;
@@ -35,6 +33,7 @@ const CustomFile = styled.span`
     padding: 0.5rem 1rem;
     line-height: 1.5;
     color: #555;
+    color: ${props => props.inputColor};
     border: 0.075rem solid #ddd;
     border-radius: 0 0.25rem 0.25rem 0;
   }
@@ -69,7 +68,7 @@ const FileSubmit = styled.button`
   border-radius: 6px;
   position: relative;
   top: 50px;
-  left: 50px
+  left: 59px
   padding: 16px 32px;
   text-align: center;
   display: inline-block;
@@ -87,16 +86,24 @@ const FileSubmit = styled.button`
   @media only screen and (max-width: 479px) {
     background-color: #008cba;
     color: white;
+    top: 50px;
+    left: 50px;
   }
 `;
 
 const FileForm = styled.form`
   position: relative;
-  right: 39px;
+  right: 15px;
+
+  // Mobile styles
+  @media only screen and (max-width: 479px) {
+    right: 42px;
+  }
 `;
 export default class Upload extends Component {
   state = {
-    value: "Upload file..."
+    value: "Upload file...",
+    submitted: false
   };
   componentDidMount = () => {
     const value = "C:\fakepathDestiny-2.jpg";
@@ -106,25 +113,42 @@ export default class Upload extends Component {
   handleFile = e => {
     let n = e.target.value;
     let result = /[^\\]*$/.exec(n)[0];
-    console.log(result);
+    this.setState(prev => ({
+      value: result,
+      submitted: !prev.submitted
+    }));
+    setTimeout(() => {
+      this.setState(prev => ({ submitted: prev.submitted }));
+    }, 1000);
+    console.log(this.state);
+  };
+  handleSubmit = e => {
+    e.preventDefault();
   };
   render() {
     return (
       <UploadWrapper>
-        <FileForm action="/images/upload" action="post">
+        <FileForm
+          action="/images/upload"
+          method="post"
+          encType="multipart/form-data"
+        >
           <div>
             <FileLabel>
               <InputUpload
                 onChange={this.handleFile}
                 type="file"
-                id="fileUpload"
-                name="fileUplaod"
-                content={this.state.value}
+                id="file"
+                name="file"
               />
-              <CustomFile />
+              <CustomFile>
+                {this.state.submitted ? this.state.value : "Upload file..."}
+              </CustomFile>
             </FileLabel>
           </div>
-          <FileSubmit>Submit</FileSubmit>
+          <FileSubmit type="submit" value="Submit">
+            Submit
+          </FileSubmit>
         </FileForm>
       </UploadWrapper>
     );
