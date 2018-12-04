@@ -5,6 +5,7 @@ import styled from "styled-components";
 const Image = styled.img`
   width: 50px;
   height: 50px;
+  display: ${props => props.display};
 `;
 const Background = styled.div`
   background-color: red;
@@ -12,37 +13,49 @@ const Background = styled.div`
   width: 50px;
   height: 50px;
 `;
+let loaded = [];
 
 export default class ImageGallery extends Component {
   state = {
     images: [],
-    isLoaded: true,
-    image: ""
+    isLoaded: false,
+    loadedImages: []
   };
 
   componentDidMount = () => {
     axios
       .get("/images/files")
-      .then(test => this.setState({ images: test.data, isLoaded: true }));
+      .then(test => this.setState({ images: test.data }));
   };
-
+  handleLoad = img => {
+    let newImages = loaded.push(img);
+    console.log(this.state.images.length);
+    if (
+      loaded.length === this.state.images.length &&
+      loaded.sort().every(function(value, index) {
+        return value === this.state.images.sort()[index];
+      })
+    ) {
+      console.log("this worked");
+    }
+  };
   render() {
     const { images, isLoaded } = this.state;
-    if (!isLoaded) {
-      return <h1>loading....</h1>;
-    }
-    if (isLoaded) {
-      return (
-        <div>
-          {images.map(file => (
-            <Background>
-              <div>
-                <Image src={"/images/image/" + file.filename} alt="test" />
-              </div>
-            </Background>
-          ))}
-        </div>
-      );
-    }
+    return (
+      <div>
+        {images.map(file => (
+          <Background>
+            <div>
+              <Image
+                src={"/images/image/" + file.filename}
+                alt="test"
+                display={isLoaded ? "" : "none"}
+                onLoad={this.handleLoad}
+              />
+            </div>
+          </Background>
+        ))}
+      </div>
+    );
   }
 }
