@@ -1,142 +1,35 @@
-const mongoose = require("mongoose");
+require("dotenv").config();
 const express = require("express");
-const path = require("path");
-const multer = require("multer");
-const GridFsStorage = require("multer-gridfs-storage");
-const Grid = require("gridfs-stream");
-const methodOverride = require("method-override");
-const crypto = require("crypto");
-const config = require("../../config");
-const mongoconn = require("../../server");
 const router = express.Router();
-const db = config.MONGODB_URI;
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
 
-//Create storage obj
-let gfs;
-router.use(methodOverride("_method"));
-
-const conn = mongoose.createConnection(config.MONGODB_URI);
-conn.once("open", () => {
-  // Initialize stream
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("uploads");
-  console.log("mongoose connected");
+aws.config.update({
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  region: "us-east-2",
+  signatureVersion: "v4"
 });
 
-const storage = new GridFsStorage({
-  url: config.MONGODB_URI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        const filename = buf.toString("hex") + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: "uploads",
-          desc: "test"
-        };
-        resolve(fileInfo);
-      });
-    });
-  }
+const s3 = new aws.S3({
+  params: { Bucket: process.env.BUCKET }
 });
-const upload = multer({ storage });
-
-// route get /
-
-router.get("/image", (req, res) => {
-  gfs.files.find().toArray((err, files) => {
-    //Check for files
-    if (!files || files.length === 0) {
-      gfs.files.find().toArray((err, files) => {
-        //Check for files
-        if (!files || files.length === 0) {
-          return res.status(404).json({
-            err: "No files exist"
-          });
-        } else {
-          files.map(file => {
-            if (
-              file.contentType === "image/jpeg" ||
-              file.contentType === "img/png"
-            ) {
-              file.isImage = true;
-              res.json(file);
-            } else {
-              file.isImage = false;
-            }
-          });
-        }
-      });
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    acl: "bucket-owner-full-control",
+    bucket: "imagegallerynode",
+    key: function(req, file, cb) {
+      console.log(file);
+      cb(null, Date.now().toString());
     }
-  });
+  })
 });
 
-//route post /upload
-
-router.post("/upload", upload.single("file"), async (req, res) => {
-  console.log("test");
-  res.redirect("/");
+router.post("/image-upload", upload.array("image", 1), function(req, res) {
+  console.log(req);
+  return res.send("Uploaded");
 });
 
-router.get("/files", (req, res) => {
-  gfs.files.find().toArray((err, files) => {
-    //Check for files
-    if (!files || files.length === 0) {
-      return res.status(404).json({
-        err: "No files exist"
-      });
-    }
-    if (err) {
-      return res.status(501).json({
-        err: "Something went wrong"
-      });
-    }
-    return res.send(files);
-  });
-});
-
-router.get("/files/:filename", (req, res) => {
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    if (!file || file.length === 0) {
-      return res.status(404).json({
-        err: "No file exist"
-      });
-    }
-    // file exists
-    return res.json(file);
-  });
-});
-// Desc display single file
-router.get("/image/:filename", (req, res) => {
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    if (!file || file.length === 0) {
-      return res.status(404).json({
-        err: "No file exist"
-      });
-    }
-    //Check if image
-    if (file.contentType === "image/jpeg" || file.contentType === "img/png") {
-      // Read output to browser
-      const readstream = gfs.createReadStream(file.filename);
-      readstream.pipe(res);
-    } else {
-      res.status(404).json({
-        err: "not a image"
-      });
-    }
-  });
-});
-//Delete request
-// route /files/:id
-router.delete("/files/:id", (req, res) => {
-  gfs.remove({ _id: req.params.id, root: "uploads" }, (err, gridStore) => {
-    if (err) {
-      return res.status(404).json({ err: err });
-    }
-    res.redirect("/");
-  });
-});
 module.exports = router;

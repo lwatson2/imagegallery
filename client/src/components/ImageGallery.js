@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Image = styled.img`
   width: 50px;
@@ -13,13 +14,11 @@ const Background = styled.div`
   width: 50px;
   height: 50px;
 `;
-let loaded = [];
 
 export default class ImageGallery extends Component {
   state = {
     images: [],
-    isLoaded: false,
-    loadedImages: []
+    isLoaded: false
   };
 
   componentDidMount = () => {
@@ -27,34 +26,23 @@ export default class ImageGallery extends Component {
       .get("/images/files")
       .then(test => this.setState({ images: test.data }));
   };
-  handleLoad = img => {
-    let newImages = loaded.push(img);
-    console.log(this.state.images.length);
-    if (
-      loaded.length === this.state.images.length &&
-      loaded.sort().every(function(value, index) {
-        return value === this.state.images.sort()[index];
-      })
-    ) {
-      console.log("this worked");
-    }
-  };
+  placeholderSrc(width, height) {
+    return `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
+  }
   render() {
     const { images, isLoaded } = this.state;
     return (
       <div>
-        {images.map(file => (
-          <Background>
-            <div>
-              <Image
-                src={"/images/image/" + file.filename}
-                alt="test"
-                display={isLoaded ? "" : "none"}
-                onLoad={this.handleLoad}
-              />
-            </div>
-          </Background>
-        ))}
+        <div>
+          <LazyLoadImage
+            src={
+              "https://imagegallerynode.s3.us-east-2.amazonaws.com/1544075882075"
+            }
+            alt="test"
+            height={150}
+            width={150}
+          />
+        </div>
       </div>
     );
   }

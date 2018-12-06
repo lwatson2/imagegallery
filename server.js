@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const config = require("./config");
@@ -17,17 +18,14 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 
-let newItem;
-let gfs;
-
 //Connect to mongo db
 const conn = mongoose.createConnection(config.MONGODB_URI);
 app.use("/", router);
-app.use("/images", images);
+app.use("/image", images);
 
 app.use("/login", users);
 
 app.listen(config.PORT, () => {
-  console.log(`Server started on port ${config.PORT}`);
+  console.log(`Server started on port ${process.env.PORT}`);
 });
 module.exports.conn = conn;
