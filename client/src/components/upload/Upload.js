@@ -94,7 +94,6 @@ const FileSubmit = styled.button`
 const FileForm = styled.form`
   position: relative;
   right: 15px;
-
   // Mobile styles
   @media only screen and (max-width: 479px) {
     right: 42px;

@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import styled from "styled-components";
 import Upload from "./components/upload/Upload";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 class App extends Component {
   state = {
