@@ -1,23 +1,19 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import ImageGallery from "./ImageGallery";
+import ImageGallery from "./imagegallery/ImageGallery";
 import Upload from "./upload/Upload";
 import axios from "axios";
 import { Route, Link, Switch } from "react-router-dom";
 
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
-  border: line-dotted;
+const Sidebar = styled.div`
+  position: fixed;
+  z-index: 999;
 `;
+
 const UploadLink = styled.button`
   display: inline-block;
   width: 61px;
   height: 20px;
-  position: absolute;
-  right: 0px;
-  top: 0px;
 `;
 export default class Home extends Component {
   getfile = () => {
@@ -26,13 +22,15 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <Link to={`/upload`}>
-          <UploadLink>Upload</UploadLink>
-        </Link>
-        <Title>Hello world</Title>
+        {/* <Sidebar>
+          <Link to={`/upload`}>
+            <UploadLink>Upload</UploadLink>
+          </Link>
+        </Sidebar> */}
         <div>
           <ImageGallery />
         </div>
+
         <Route exact path="upload" component={Upload} content="Upload file" />
       </div>
     );

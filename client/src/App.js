@@ -1,3 +1,5 @@
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import React, { Component } from "react";
 import axios from "axios";
 import { Route, Link, Switch } from "react-router-dom";
@@ -7,8 +9,6 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import styled from "styled-components";
 import Upload from "./components/upload/Upload";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-
 class App extends Component {
   state = {
     files: false,
