@@ -3,3 +3,12 @@
   top: 50%;
   z-index: 1;
 }
+
+.slick-next {
+  right: 8px !important;
+  z-index: 1;
+}
+.slick-prev {
+  left: 8px !important;
+  z-index: 1;
+}

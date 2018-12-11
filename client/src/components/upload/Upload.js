@@ -128,7 +128,7 @@ export default class Upload extends Component {
     return (
       <UploadWrapper>
         <FileForm
-          action="/images/upload"
+          action="/image/image-upload"
           method="post"
           encType="multipart/form-data"
         >
@@ -137,8 +137,8 @@ export default class Upload extends Component {
               <InputUpload
                 onChange={this.handleFile}
                 type="file"
-                id="file"
-                name="file"
+                id="image"
+                name="image"
               />
               <CustomFile>
                 {this.state.submitted ? this.state.value : "Upload file..."}

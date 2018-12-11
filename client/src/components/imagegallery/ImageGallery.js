@@ -6,14 +6,41 @@ import Slider from "react-slick";
 const url = "https://s3-us-east-2.amazonaws.com/imagegallerynode/";
 
 const Image = styled.img`
-  height: 400px;
+@media only screen and (max-width: 479px){
+  height: inherit
+  width: 100%
+}
+@media only screen and (min-width: 480px) and (max-width: 767px){
+  height: inherit
+  width: 100%
+}
+@media only screen and (min-width: 768px) and (max-width: 991px){
+ height: inherit
+}
+@media only screen and (min-width: 992px) and (max-width: 1488px){
+  height: inherit
+}
+@media only screen and (min-width: 1489px){
+  height: inherit
+}
+  
+  width: 100%
 }
 `;
-const Background = styled.div`
-backgroundPosition: 'center',
-backgroundSize: 'cover',
+const Container = styled.div`
+  @media only screen and (max-width: 479px) {
+    height: 300px;
+    width: 100%;
   }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    height: 400px;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+    height: 400px;
+  }
+  height: 400px;
 `;
+const Background = styled.div``;
 
 export default class ImageGallery extends Component {
   state = {
@@ -41,22 +68,39 @@ export default class ImageGallery extends Component {
       infinite: true,
       speed: 500,
       slidesToShow: 2,
-      slidesToScroll: 1
+      slidesToScroll: 2,
+      adaptiveHeight: true,
+      responsive: [
+        {
+          breakpoint: 700,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 489,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
     };
     console.log(url + newurl);
     if (!isLoaded) {
       return <div>Loading...</div>;
     }
     return (
-      <div className="carousel-container">
+      <Background>
         <Slider {...settings}>
           {images.map(image => (
-            <div>
+            <Container>
               <Image src={url + image.Key} alt="test" />
-            </div>
+            </Container>
           ))}
         </Slider>
-      </div>
+      </Background>
     );
   }
 }
