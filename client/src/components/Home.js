@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import ImageGallery from "./imagegallery/ImageGallery";
-import Navbar from "./navbar/Navbar";
+import Navbars from "./navbar/Navbar";
 import axios from "axios";
 import { Route, Link, Switch } from "react-router-dom";
 
@@ -19,7 +19,7 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbars />
         <div>
           <ImageGallery />
         </div>

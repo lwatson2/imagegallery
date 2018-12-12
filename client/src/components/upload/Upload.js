@@ -6,11 +6,15 @@ const UploadWrapper = styled.div`
   @media only screen and (max-width: 479px) {
     position: relative;
     top: 45px;
-    width: 234px;
+    left: 10px;
+    width: 300px;
   }
+  @media only screen and (min-width: 480px) and (max-width: 768px) {
+    width: 400px;
+  }
+
   position: relative;
   top: 100px;
-  width: 300px;
   border: 2px solid #0099cc;
   border-radius: 6px;
   padding: 50px 4px 82px 66px;
@@ -54,6 +58,9 @@ const CustomFile = styled.span`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  @media only screen and (max-width: 479px) {
+    width: 269px;
+  }
 `;
 const FileLabel = styled.label`
   position: relative;
@@ -87,7 +94,13 @@ const FileSubmit = styled.button`
     background-color: #008cba;
     color: white;
     top: 50px;
-    left: 50px;
+    left: 68px;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 768px){
+    background-color: #008cba;
+    color: white;
+    top: 50px;
+    left: 68px;
   }
 `;
 
@@ -96,7 +109,7 @@ const FileForm = styled.form`
   right: 15px;
   // Mobile styles
   @media only screen and (max-width: 479px) {
-    right: 42px;
+    right: 50px;
   }
 `;
 export default class Upload extends Component {
