@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import styled from "styled-components";
 import Upload from "./components/upload/Upload";
+import Navabars from "./components/navbar/Navbar";
 class App extends Component {
   state = {
     files: false,
@@ -22,10 +23,13 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/upload" component={Upload} />
-        </Switch>
+        <div>
+          <Navabars />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/upload" component={Upload} />
+          </Switch>
+        </div>
       </BrowserRouter>
     );
   }

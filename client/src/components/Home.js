@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import ImageGallery from "./imagegallery/ImageGallery";
-import Navbars from "./navbar/Navbar";
-import axios from "axios";
-import { Route, Link, Switch } from "react-router-dom";
+import Quote from "./quote/Quote";
 
 const Sidebar = styled.div`
   position: fixed;
@@ -19,10 +17,8 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <Navbars />
-        <div>
-          <ImageGallery />
-        </div>
+        <ImageGallery />
+        <Quote />
       </div>
     );
   }

@@ -8,6 +8,7 @@ const PhotoSpan = styled.span`
   position: absolute;
   right: 12px;
   top: 17px;
+  color: white;
 `;
 export default class Navbar extends Component {
   state = {
@@ -31,7 +32,7 @@ export default class Navbar extends Component {
             onClick={this.toggleNav}
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon" />
+            <span className="navbar-toggler-icon" />
           </button>
           <div
             className={"collapse navbar-collapse " + show}

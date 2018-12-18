@@ -6,14 +6,14 @@ const UploadWrapper = styled.div`
   @media only screen and (max-width: 479px) {
     position: relative;
     top: 45px;
-    left: 10px;
     width: 300px;
   }
   @media only screen and (min-width: 480px) and (max-width: 768px) {
-    width: 400px;
+
   }
 
   position: relative;
+  width: 400px
   top: 100px;
   border: 2px solid #0099cc;
   border-radius: 6px;
@@ -75,7 +75,7 @@ const FileSubmit = styled.button`
   border-radius: 6px;
   position: relative;
   top: 50px;
-  left: 59px
+  left: 77px
   padding: 16px 32px;
   text-align: center;
   display: inline-block;
