@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import "./ImageGallery.css";
 import Slider from "react-slick";
+import Modal from "./../modal/Modal";
 const url = "https://s3-us-east-2.amazonaws.com/imagegallerynode/";
 
 const Image = styled.img`
@@ -41,50 +42,43 @@ const Container = styled.div`
   height: 400px;
 `;
 const Background = styled.div``;
-const InputContainer = styled.div`
-  text-align: center;
-  background-color: #007bff;
+
+const ModalContainer = styled.div`
+  width: 250px;
+  margin: 0 auto;
+  padding: 6px 0px 10px 0px;
+`;
+const ModalBtn = styled.button`
+  display: block;
+  background-color: #ff2323;
+  min-width: 100%;
+  outline: 0;
+  border: 0;
+  border-radius: 10px;
 `;
 
-const InputButton = styled.button`
-  background-color: #902d41;
-  color: white;
-  border: none;
-`;
-const CustomInput = styled.input`
-  width: 145px;
-  border: none;
-  padding-left: 6px;
-`;
 export default class ImageGallery extends Component {
   state = {
     images: [],
     isLoaded: false,
-    slideIndex: ""
+    slideIndex: "",
+    isShowing: false
   };
-
   componentDidMount = () => {
-    axios
-      .get("/image/getimages")
-      .then(all =>
-        this.setState({ images: all.data.data.Contents, isLoaded: true })
-      );
+    let reversed = [];
+    axios.get("/image/getimages").then(all => {
+      reversed = all.data.data.Contents.reverse();
+      this.setState({ images: reversed, isLoaded: true });
+    });
   };
-  handleChange = e => {
-    this.setState({ slideIndex: e.target.value });
+  showModal = () => {
+    this.setState({ isShowing: true });
   };
-  handleSubmit = event => {
-    const index = this.state.slideIndex;
-    event.preventDefault();
-    this.setState({ slideIndex: "" });
-    const value = parseInt(index) - 1;
-    this.slider.slickGoTo(value.toString());
-    console.log(value);
+  closeModal = () => {
+    this.setState({ isShowing: false });
   };
-
   render() {
     const { images, isLoaded } = this.state;
-    const newurl = "1544238831421.jpg";
     let settings = {
       dots: true,
       arrows: true,
@@ -122,26 +116,30 @@ export default class ImageGallery extends Component {
     }
     return (
       <Background>
-        <InputContainer>
-          <form onSubmit={this.handleSubmit}>
-            <CustomInput
-              value={this.state.slideIndex}
-              onChange={this.handleChange}
-              placeholder="Jump to image"
-              type="number"
-              min="0"
-              max={this.state.images.length}
-            />
-            <InputButton>Submit</InputButton>
-          </form>
-        </InputContainer>
+        {this.state.isShowing ? (
+          <div onClick={this.closeModal} className="back-drop" />
+        ) : null}
         <Slider ref={slider => (this.slider = slider)} {...settings}>
           {images.map(image => (
             <Container>
-              <Image src={url + image.Key} alt="test" />
+              <Image
+                onClick={() => console.log("this")}
+                src={url + image.Key}
+                alt="test"
+              />
+              <ModalContainer>
+                <ModalBtn onClick={this.showModal}>Delete</ModalBtn>
+              </ModalContainer>
             </Container>
           ))}
         </Slider>
+        <Modal
+          className="modal"
+          show={this.state.isShowing}
+          close={this.closeModal}
+        >
+          Are you sure you want to delete this item?
+        </Modal>
       </Background>
     );
   }

@@ -12,7 +12,7 @@ const QuoteContainer = styled.div`
   }
   @media only screen and (min-width: 992px) {
     width: 600px;
-    left: 350px;
+    left: 400px;
   }
 `;
 const Quote = props => {
