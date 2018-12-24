@@ -33,15 +33,34 @@ router.get("/getimages", function(req, res) {
   s3.listObjects(params, function(err, data) {
     if (err) console.log(err, err.stack);
     // an error occurred
-
+    console.log(data);
     res.json({
       data
     });
   });
 });
 
+router.post("/delete", async function(req, res) {
+  const param = {
+    Bucket: process.env.BUCKET,
+    Key: req.body.itemKey
+  };
+  s3.deleteObject(param, function(err, data) {
+    if (err) console.log(err, err.stack);
+    // an error occurred
+    else {
+      console.log("data", data);
+      res.redirect("/");
+    } // successful response
+    /*
+    data = {
+    }
+    */
+  });
+});
+
 router.post("/image-upload", upload.array("image", 1), function(req, res) {
-  return res.send("Uploaded");
+  return res.redirect("/");
 });
 
 module.exports = router;

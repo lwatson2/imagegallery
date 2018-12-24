@@ -5,7 +5,6 @@ const QuoteStyle = styled.h2`
 `;
 const QuoteContainer = styled.div`
   position: relative;
-  top: 62px;
   @media only screen and (min-width: 768px) and (max-width: 991px) {
     left: 102px;
     width: 600px;

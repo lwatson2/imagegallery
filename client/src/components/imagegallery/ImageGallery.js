@@ -41,7 +41,12 @@ const Container = styled.div`
   }
   height: 400px;
 `;
-const Background = styled.div``;
+const Background = styled.div`
+  @media only screen and (max-width: 767px) {
+    height: 400px;
+  }
+  height: 500px;
+`;
 
 const ModalContainer = styled.div`
   width: 250px;
@@ -62,20 +67,38 @@ export default class ImageGallery extends Component {
     images: [],
     isLoaded: false,
     slideIndex: "",
-    isShowing: false
+    isShowing: false,
+    image: "",
+    isDeleted: false
   };
   componentDidMount = () => {
+    this.getImages();
+  };
+
+  componentDidUpdate = (prevState, prevProps) => {
+    if (this.state.isDeleted !== false) {
+      this.getImages();
+    }
+  };
+  getImages = () => {
     let reversed = [];
     axios.get("/image/getimages").then(all => {
       reversed = all.data.data.Contents.reverse();
-      this.setState({ images: reversed, isLoaded: true });
+      this.setState({ images: reversed, isLoaded: true, isDeleted: false });
     });
+    console.log("ran inside of get");
   };
-  showModal = () => {
-    this.setState({ isShowing: true });
+  showModal = image => {
+    this.setState({ isShowing: true, image: image.Key });
   };
+
   closeModal = () => {
+    console.log("test close");
     this.setState({ isShowing: false });
+  };
+  deletedItem = () => {
+    console.log("test delete ");
+    this.setState({ isShowing: false, isDeleted: true });
   };
   render() {
     const { images, isLoaded } = this.state;
@@ -128,7 +151,9 @@ export default class ImageGallery extends Component {
                 alt="test"
               />
               <ModalContainer>
-                <ModalBtn onClick={this.showModal}>Delete</ModalBtn>
+                <ModalBtn onClick={() => this.showModal(image)}>
+                  Delete
+                </ModalBtn>
               </ModalContainer>
             </Container>
           ))}
@@ -137,6 +162,8 @@ export default class ImageGallery extends Component {
           className="modal"
           show={this.state.isShowing}
           close={this.closeModal}
+          image={this.state.image}
+          delete={this.deletedItem}
         >
           Are you sure you want to delete this item?
         </Modal>
