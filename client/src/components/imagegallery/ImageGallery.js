@@ -80,9 +80,9 @@ export default class ImageGallery extends Component {
       this.getImages();
     }
   };
-  getImages = () => {
+  getImages = async () => {
     let reversed = [];
-    axios.get("/image/getimages").then(all => {
+    await axios.get("/image/getimages").then(all => {
       reversed = all.data.data.Contents.reverse();
       this.setState({ images: reversed, isLoaded: true, isDeleted: false });
     });
@@ -103,7 +103,7 @@ export default class ImageGallery extends Component {
   render() {
     const { images, isLoaded } = this.state;
     let settings = {
-      dots: true,
+      dots: false,
       arrows: true,
       infinite: true,
       speed: 500,

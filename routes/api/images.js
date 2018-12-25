@@ -7,6 +7,8 @@ const aws = require("aws-sdk");
 const params = {
   Bucket: process.env.BUCKET
 };
+const db = require("../../server");
+const image = require("../../models/Image");
 aws.config.update({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -23,7 +25,6 @@ const upload = multer({
     acl: "bucket-owner-full-control",
     bucket: "imagegallerynode",
     key: function(req, file, cb) {
-      console.log(file);
       cb(null, Date.now().toString() + ".jpg");
     }
   })
@@ -33,7 +34,6 @@ router.get("/getimages", function(req, res) {
   s3.listObjects(params, function(err, data) {
     if (err) console.log(err, err.stack);
     // an error occurred
-    console.log(data);
     res.json({
       data
     });
@@ -45,21 +45,32 @@ router.post("/delete", async function(req, res) {
     Bucket: process.env.BUCKET,
     Key: req.body.itemKey
   };
-  s3.deleteObject(param, function(err, data) {
-    if (err) console.log(err, err.stack);
-    // an error occurred
-    else {
-      console.log("data", data);
-      res.redirect("/");
-    } // successful response
-    /*
+  await s3
+    .deleteObject(param, function(err, data) {
+      if (err) console.log(err, err.stack);
+      // an error occurred
+      else {
+        console.log("success");
+      } // successful response
+      /*
     data = {
     }
     */
-  });
+    })
+    .promise();
 });
 
-router.post("/image-upload", upload.array("image", 1), function(req, res) {
+router.post("/image-upload", upload.array("image", 1), async function(
+  req,
+  res
+) {
+  const { key, location } = req.files[0];
+  const Image = db.conn.model("imagesSchema", image.Image);
+  const newImage = new Image({
+    Link: location,
+    Key: key
+  });
+  await newImage.save();
   return res.redirect("/");
 });
 
