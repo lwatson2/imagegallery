@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
+
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
@@ -31,33 +33,38 @@ const upload = multer({
 });
 
 router.get("/getimages", function(req, res) {
-  s3.listObjects(params, function(err, data) {
-    if (err) console.log(err, err.stack);
-    // an error occurred
-    res.json({
-      data
-    });
+  const Image = db.conn.model("imagesSchema", image.Image);
+  Image.find({}).then(function(images) {
+    res.json({ images });
   });
 });
 
-router.post("/delete", async function(req, res) {
+router.post("/delete", function(req, res) {
+  console.log(req.body.itemKey);
+  const { itemKey } = req.body;
+  console.log(itemKey);
   const param = {
     Bucket: process.env.BUCKET,
-    Key: req.body.itemKey
+    Key: itemKey
   };
-  await s3
-    .deleteObject(param, function(err, data) {
-      if (err) console.log(err, err.stack);
-      // an error occurred
-      else {
-        console.log("success");
-      } // successful response
-      /*
-    data = {
+  console.log(param);
+  const Image = db.conn.model("imagesSchema", image.Image);
+  Image.findOneAndRemove({ Key: itemKey }, function(err, result) {
+    console.log("test");
+    if (err) {
+      console.log(err);
     }
-    */
-    })
-    .promise();
+    if (result) {
+      console.log(result, "result");
+      res.json({ message: "success" });
+    }
+  });
+  /* await s3.deleteObject(param, function(err, data) {
+    if (err) console.log(err, err.stack);
+    // an error occurred
+    else {
+    } // successful response
+  }); */
 });
 
 router.post("/image-upload", upload.array("image", 1), async function(

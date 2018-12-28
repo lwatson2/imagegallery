@@ -76,19 +76,23 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate = (prevState, prevProps) => {
-    if (this.state.isDeleted !== false) {
+    if (this.state.isDeleted == true) {
       this.getImages();
     }
   };
   getImages = async () => {
     let reversed = [];
     await axios.get("/image/getimages").then(all => {
-      reversed = all.data.data.Contents.reverse();
-      this.setState({ images: reversed, isLoaded: true, isDeleted: false });
+      this.setState({
+        images: all.data.images,
+        isLoaded: true,
+        isDeleted: false
+      });
     });
     console.log("ran inside of get");
   };
   showModal = image => {
+    console.log(image);
     this.setState({ isShowing: true, image: image.Key });
   };
 
@@ -103,7 +107,7 @@ export default class ImageGallery extends Component {
   render() {
     const { images, isLoaded } = this.state;
     let settings = {
-      dots: false,
+      dots: true,
       arrows: true,
       infinite: true,
       speed: 500,
@@ -128,8 +132,7 @@ export default class ImageGallery extends Component {
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1,
-            swipeToSlide: true,
-            fade: true
+            swipeToSlide: true
           }
         }
       ]
@@ -144,14 +147,15 @@ export default class ImageGallery extends Component {
         ) : null}
         <Slider ref={slider => (this.slider = slider)} {...settings}>
           {images.map(image => (
-            <Container>
+            <Container key={image.Key}>
               <Image
-                onClick={() => console.log("this")}
-                src={url + image.Key}
+                onClick={() => console.log(image.Key)}
+                src={image.Link}
                 alt="test"
               />
+              <span>{image.Link}</span>
               <ModalContainer>
-                <ModalBtn onClick={() => this.showModal(image)}>
+                <ModalBtn key={image.Key} onClick={() => this.showModal(image)}>
                   Delete
                 </ModalBtn>
               </ModalContainer>

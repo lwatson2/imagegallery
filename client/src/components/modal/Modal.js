@@ -13,9 +13,11 @@ export default class Modal extends Component {
     console.log(this.props.image);
     const itemKey = this.props.image;
 
-    axios.post("/image/delete", { itemKey }).then(res => {
-      console.log(res);
-      this.setState({ loading: false });
+    axios.post("/image/delete", { itemKey }).then(data => {
+      if(data.message === 'success'){
+        console.log('true')
+        this.setState({loading: false})
+      }
     });
   };
   render() {
