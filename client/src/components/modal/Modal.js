@@ -5,20 +5,21 @@ import "./Modal.css";
 
 export default class Modal extends Component {
   state = {
-    loading: false
+    loading: false,
+    message: ""
   };
-  handleSubmit = event => {
-    event.preventDefault();
+  handleSubmit = async event => {
     this.setState({ loading: true });
-    console.log(this.props.image);
     const itemKey = this.props.image;
-
-    axios.post("/image/delete", { itemKey }).then(data => {
-      if(data.message === 'success'){
-        console.log('true')
-        this.setState({loading: false})
+    try {
+      const response = await axios.post("/image/delete", { itemKey });
+      const data = response.data;
+      if (data.message === "success") {
+        this.setState({ loading: false });
       }
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
   render() {
     return (

@@ -39,32 +39,54 @@ router.get("/getimages", function(req, res) {
   });
 });
 
-router.post("/delete", function(req, res) {
-  console.log(req.body.itemKey);
+router.post("/delete", async function(req, res) {
   const { itemKey } = req.body;
   console.log(itemKey);
   const param = {
     Bucket: process.env.BUCKET,
     Key: itemKey
   };
-  console.log(param);
-  const Image = db.conn.model("imagesSchema", image.Image);
-  Image.findOneAndRemove({ Key: itemKey }, function(err, result) {
-    console.log("test");
-    if (err) {
-      console.log(err);
-    }
-    if (result) {
-      console.log(result, "result");
-      res.json({ message: "success" });
-    }
+  /* const imageProm = await new Promise(async (resolve, reject) => {
+    const Image = db.conn.model("imagesSchema", image.Image);
+    await Image.findOneAndRemove({ Key: itemKey }, function(err, result) {
+      try {
+        if (err) {
+          throw err;
+        }
+        if (result) {
+          resolve();
+        }
+      } catch (error) {}
+    });
   });
-  /* await s3.deleteObject(param, function(err, data) {
-    if (err) console.log(err, err.stack);
-    // an error occurred
-    else {
-    } // successful response
+  const s3Prom = 
+    await s3.deleteObject(param, function(err, data) {
+      try {
+        if (data) {
+          resolve();
+          console.log("test");
+        }
+      } catch (err) {
+        throw err;
+      }
+    });
   }); */
+  try {
+    const Image = db.conn.model("imagesSchema", image.Image);
+    await Image.findOneAndRemove({ Key: itemKey }, function(err, result) {
+      if (err) {
+        throw err;
+      }
+    });
+    await s3.deleteObject(param, function(err, data) {
+      if (err) {
+        throw err;
+      }
+    });
+    res.json({ message: "success" });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.post("/image-upload", upload.array("image", 1), async function(

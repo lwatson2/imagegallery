@@ -69,7 +69,8 @@ export default class ImageGallery extends Component {
     slideIndex: "",
     isShowing: false,
     image: "",
-    isDeleted: false
+    isDeleted: false,
+    test: ""
   };
   componentDidMount = () => {
     this.getImages();
@@ -89,7 +90,7 @@ export default class ImageGallery extends Component {
         isDeleted: false
       });
     });
-    console.log("ran inside of get");
+    console.log(this.state.images);
   };
   showModal = image => {
     console.log(image);
@@ -168,6 +169,7 @@ export default class ImageGallery extends Component {
           close={this.closeModal}
           image={this.state.image}
           delete={this.deletedItem}
+          test={this.state.test}
         >
           Are you sure you want to delete this item?
         </Modal>
