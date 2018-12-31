@@ -54,6 +54,13 @@ export default class Navbar extends Component {
                     </button>
                   </li>
                 </Link>
+                <Link to={"/login"}>
+                  <li>
+                    <button className="btn btn-primary" size="sm">
+                      Login
+                    </button>
+                  </li>
+                </Link>
               </ul>
             </div>
           </div>
