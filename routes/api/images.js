@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-
+const Image_Collection = "imagesschemas";
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
@@ -88,7 +88,19 @@ router.post("/delete", async function(req, res) {
     console.log(error);
   }
 });
-
+router.get("/RandomImage", async function(req, res) {
+  await db.conn
+    .collection("imagesschemas")
+    .aggregate([{ $sample: { size: 1 } }])
+    .toArray(function(err, docs) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json(docs);
+        console.log(docs);
+      }
+    });
+});
 router.post("/image-upload", upload.array("image", 1), async function(
   req,
   res
