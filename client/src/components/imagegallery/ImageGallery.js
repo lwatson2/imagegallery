@@ -154,7 +154,6 @@ export default class ImageGallery extends Component {
                 src={image.Link}
                 alt="test"
               />
-              <span>{image.Link}</span>
               <ModalContainer>
                 <ModalBtn key={image.Key} onClick={() => this.showModal(image)}>
                   Delete

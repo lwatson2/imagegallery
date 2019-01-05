@@ -64,16 +64,26 @@ const LoginButton = styled.button`
     padding: 10px 25px;
   }
 `;
+
+const Background = styled.div`
+  background-image: ${props => props.backgroundImage};
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+`;
 export default class Login extends Component {
   state = {
     email: "",
     password: "",
-    image: ""
+    image: []
+  };
+  componentDidMount = () => {
+    this.getImage();
   };
   getImage = async () => {
     try {
       const fetchImage = await axios.get("/image/RandomImage");
-      console.log(fetchImage.data);
+      this.setState({ image: fetchImage.data[0].Link });
     } catch (error) {}
   };
   handleEmailChange = event => {
@@ -95,8 +105,10 @@ export default class Login extends Component {
     }
   };
   render() {
+    console.log(this.state.image.Link);
     return (
-      <div>
+      <Background backgroundImage={`url(${this.state.image})`}>
+        add backgroun
         <FormWrapper>
           <form>
             <label for="email">Email</label>
@@ -118,8 +130,7 @@ export default class Login extends Component {
             <LoginButton>Submit</LoginButton>
           </form>
         </FormWrapper>
-        <button onClick={this.getImage}>test</button>
-      </div>
+      </Background>
     );
   }
 }

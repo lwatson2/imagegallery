@@ -28,7 +28,7 @@ export default class Modal extends Component {
         style={{
           transform: this.props.show
             ? "translateY(-50vh)"
-            : "translateY(-100vh)",
+            : "translateY(-118vh)",
           opacity: this.props.show ? "1" : "0"
         }}
       >
