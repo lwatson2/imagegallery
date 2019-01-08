@@ -23,7 +23,7 @@ const conn = mongoose.createConnection(config.MONGODB_URI);
 app.use("/", router);
 app.use("/image", images);
 
-app.use("/login", users);
+app.use("/user", users);
 
 app.listen(config.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);

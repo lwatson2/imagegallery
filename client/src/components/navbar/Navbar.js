@@ -3,6 +3,7 @@ import { Route, Link, Switch } from "react-router-dom";
 import styled from "styled-components";
 import Upload from "./../upload/Upload";
 import { Button } from "reactstrap";
+import Signin from "../signin/Signin";
 
 const PhotoSpan = styled.span`
   position: absolute;
@@ -14,11 +15,16 @@ export default class Navbar extends Component {
   state = {
     isOpen: false
   };
-
+  handleLogout = () => {
+    console.log("negative");
+    this.props.logout();
+  };
   toggleNav = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
   render() {
+    const { isLoggedIn } = this.props;
+    console.log(isLoggedIn);
     const show = this.state.isOpen ? "show" : "";
     return (
       <div>
@@ -54,19 +60,32 @@ export default class Navbar extends Component {
                     </button>
                   </li>
                 </Link>
-                <Link to={"/login"}>
+                {isLoggedIn ? (
                   <li>
-                    <button className="btn btn-primary" size="sm">
-                      Login
+                    <button
+                      onClick={this.handleLogout}
+                      className="btn btn-primary"
+                      size="sm"
+                    >
+                      Sign out
                     </button>
                   </li>
-                </Link>
+                ) : (
+                  <Link to={"/signin"}>
+                    <li>
+                      <button className="btn btn-primary" size="sm">
+                        Sign in
+                      </button>
+                    </li>
+                  </Link>
+                )}
               </ul>
             </div>
           </div>
           <PhotoSpan>Danielle lee photography</PhotoSpan>
         </nav>
         <Route exact path="upload" component={Upload} content="Upload file" />
+        <Route exact path="signin" component={Signin} />
       </div>
     );
   }

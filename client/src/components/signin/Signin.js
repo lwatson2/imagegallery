@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./Login.css";
+import "./Signin.css";
 import styled from "styled-components";
 const FormWrapper = styled.div`
   @media only screen and (max-width: 479px) {
@@ -66,7 +66,7 @@ const LoginButton = styled.button`
 `;
 
 const Background = styled.div`
-  background-image: ${props => props.backgroundImage};
+  background: ${props => props.backgroundImage};
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
@@ -79,6 +79,7 @@ export default class Login extends Component {
   };
   componentDidMount = () => {
     this.getImage();
+    console.log(this.props);
   };
   getImage = async () => {
     try {
@@ -104,13 +105,28 @@ export default class Login extends Component {
       return "";
     }
   };
+  handleLoginSubmit = async event => {
+    event.preventDefault();
+    const creds = {
+      password: this.state.password,
+      email: this.state.email
+    };
+    try {
+      const res = await axios.post("/user/login", { creds });
+
+      if (res.data.isLoggedIn === true) {
+        console.log(this.props);
+        this.props.successfulLogin();
+      } else {
+        console.log("test");
+      }
+    } catch (error) {}
+  };
   render() {
-    console.log(this.state.image.Link);
     return (
       <Background backgroundImage={`url(${this.state.image})`}>
-        add backgroun
         <FormWrapper>
-          <form>
+          <form onSubmit={this.handleLoginSubmit}>
             <label for="email">Email</label>
             <Email
               type="text"
@@ -119,11 +135,11 @@ export default class Login extends Component {
               value={this.state.email}
               onChange={this.handleEmailChange}
             />
-            <label for="password">Password</label>
+            <label for="pass">Password</label>
             <input
               type="password"
-              id="password"
-              name="password"
+              id="pass"
+              name="pass"
               value={this.state.password}
               onChange={this.handlePassChange}
             />

@@ -7,9 +7,7 @@ const saltRounds = 10;
 const router = express.Router();
 const db = require("../../server");
 const user = require("../../models/User");
-router.get("/", (req, res) => {
-  res.json({ hello: "world" });
-});
+
 router.post("/signup", (req, res) => {
   const { email } = req.body;
   const User = db.conn.model("User", user.User);
@@ -30,11 +28,13 @@ router.post("/signup", (req, res) => {
   });
 });
 
-router.post("/signin", async (req, res) => {
-  const { email, password } = req.body;
-
+router.post("/login", async (req, res) => {
+  console.log(req.body);
+  const { email, password } = req.body.creds;
+  console.log(email, "email", password, "password");
   try {
     const user = await auth.authenticate(email, password);
+    console.log(user);
     res.json({
       isLoggedIn: true
     });

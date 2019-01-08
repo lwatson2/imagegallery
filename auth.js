@@ -19,6 +19,7 @@ exports.authenticate = (email, password) => {
       });
     } catch (error) {
       reject("Authorization failed");
+      console.log("failed");
     }
   });
 };

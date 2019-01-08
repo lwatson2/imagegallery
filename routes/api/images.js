@@ -97,7 +97,6 @@ router.get("/RandomImage", async function(req, res) {
         console.log(err);
       } else {
         res.status(200).json(docs);
-        console.log(docs);
       }
     });
 });
