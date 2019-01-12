@@ -17,7 +17,10 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <ImageGallery />
+        <ImageGallery
+          userEmail={this.props.userEmail}
+          isLoggedIn={this.props.isLoggedIn}
+        />
         <Quote />
       </div>
     );

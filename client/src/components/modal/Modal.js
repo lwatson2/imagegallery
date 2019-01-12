@@ -10,9 +10,12 @@ export default class Modal extends Component {
   };
   handleSubmit = async event => {
     this.setState({ loading: true });
-    const itemKey = this.props.image;
+    const params = {
+      itemKey: this.props.image,
+      userEmail: this.props.userEmail
+    };
     try {
-      const response = await axios.post("/image/delete", { itemKey });
+      const response = await axios.post("/image/delete", { params });
       const data = response.data;
       if (data.message === "success") {
         this.setState({ loading: false });

@@ -10,31 +10,37 @@ import styled from "styled-components";
 import Upload from "./components/upload/Upload";
 import Navabars from "./components/navbar/Navbar";
 import Signin from "./components/signin/Signin";
-import Dummy from "./components/Dummy";
 class App extends Component {
   state = {
     files: false,
     images: [],
     desc: [],
-    isLoggedIn: false
+    isLoggedIn: false,
+    userEmail: ""
   };
-  successfulLogin = () => {
-    this.setState({ isLoggedIn: true });
-    console.log("yes");
+  successfulLogin = email => {
+    this.setState({ userEmail: email });
   };
   logout = () => {
-    this.setState({ isLoggedIn: false });
-    console.log("also yes");
+    sessionStorage.removeItem("isLoggedIn");
   };
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(sessionStorage.getItem("isLoggedIn"));
+  }
 
   render() {
     return (
       <BrowserRouter>
         <div>
-          <Navabars isLoggedIn={this.state.isLoggedIn} logout={this.logout} />
+          <Navabars logout={this.logout} />
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Home {...props} userEmail={this.state.userEmail} />
+              )}
+            />
             <Route exact path="/upload" component={Upload} />
             <Route
               exact

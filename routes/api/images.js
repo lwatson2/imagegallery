@@ -40,37 +40,12 @@ router.get("/getimages", function(req, res) {
 });
 
 router.post("/delete", async function(req, res) {
-  const { itemKey } = req.body;
+  const { itemKey } = req.body.params;
   console.log(itemKey);
   const param = {
     Bucket: process.env.BUCKET,
     Key: itemKey
   };
-  /* const imageProm = await new Promise(async (resolve, reject) => {
-    const Image = db.conn.model("imagesSchema", image.Image);
-    await Image.findOneAndRemove({ Key: itemKey }, function(err, result) {
-      try {
-        if (err) {
-          throw err;
-        }
-        if (result) {
-          resolve();
-        }
-      } catch (error) {}
-    });
-  });
-  const s3Prom = 
-    await s3.deleteObject(param, function(err, data) {
-      try {
-        if (data) {
-          resolve();
-          console.log("test");
-        }
-      } catch (err) {
-        throw err;
-      }
-    });
-  }); */
   try {
     const Image = db.conn.model("imagesSchema", image.Image);
     await Image.findOneAndRemove({ Key: itemKey }, function(err, result) {
@@ -111,7 +86,7 @@ router.post("/image-upload", upload.array("image", 1), async function(
     Key: key
   });
   await newImage.save();
-  return res.redirect("/");
+  res.redirect("/");
 });
 
 module.exports = router;

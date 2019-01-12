@@ -135,7 +135,7 @@ export default class Upload extends Component {
     console.log(this.state);
   };
   handleSubmit = e => {
-    e.preventDefault();
+    this.props.history.push("/");
   };
   render() {
     return (

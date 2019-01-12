@@ -18,7 +18,7 @@ const Quote = props => {
   return (
     <QuoteContainer>
       <QuoteStyle>
-        What I like about photographs is that they capture a moment that's gone
+        "What I like about photographs is that they capture a moment that's gone
         forever, impossible to reproduce"
       </QuoteStyle>
     </QuoteContainer>

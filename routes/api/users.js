@@ -34,9 +34,9 @@ router.post("/login", async (req, res) => {
   console.log(email, "email", password, "password");
   try {
     const user = await auth.authenticate(email, password);
-    console.log(user);
     res.json({
-      isLoggedIn: true
+      isLoggedIn: true,
+      user
     });
   } catch (error) {
     res.json({

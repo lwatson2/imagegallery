@@ -93,7 +93,6 @@ export default class ImageGallery extends Component {
     console.log(this.state.images);
   };
   showModal = image => {
-    console.log(image);
     this.setState({ isShowing: true, image: image.Key });
   };
 
@@ -106,6 +105,7 @@ export default class ImageGallery extends Component {
     this.setState({ isShowing: false, isDeleted: true });
   };
   render() {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     const { images, isLoaded } = this.state;
     let settings = {
       dots: true,
@@ -154,11 +154,16 @@ export default class ImageGallery extends Component {
                 src={image.Link}
                 alt="test"
               />
-              <ModalContainer>
-                <ModalBtn key={image.Key} onClick={() => this.showModal(image)}>
-                  Delete
-                </ModalBtn>
-              </ModalContainer>
+              {isLoggedIn ? (
+                <ModalContainer>
+                  <ModalBtn
+                    key={image.Key}
+                    onClick={() => this.showModal(image)}
+                  >
+                    Delete
+                  </ModalBtn>
+                </ModalContainer>
+              ) : null}
             </Container>
           ))}
         </Slider>
@@ -169,6 +174,7 @@ export default class ImageGallery extends Component {
           image={this.state.image}
           delete={this.deletedItem}
           test={this.state.test}
+          userEmail={this.props.userEmail}
         >
           Are you sure you want to delete this item?
         </Modal>

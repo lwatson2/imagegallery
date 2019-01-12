@@ -23,7 +23,7 @@ export default class Navbar extends Component {
     this.setState({ isOpen: !this.state.isOpen });
   };
   render() {
-    const { isLoggedIn } = this.props;
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     console.log(isLoggedIn);
     const show = this.state.isOpen ? "show" : "";
     return (
@@ -53,23 +53,25 @@ export default class Navbar extends Component {
                     </button>
                   </li>
                 </Link>
-                <Link to={"/upload"}>
-                  <li>
-                    <button className="btn btn-primary" size="sm">
-                      Upload
-                    </button>
-                  </li>
-                </Link>
                 {isLoggedIn ? (
-                  <li>
-                    <button
-                      onClick={this.handleLogout}
-                      className="btn btn-primary"
-                      size="sm"
-                    >
-                      Sign out
-                    </button>
-                  </li>
+                  <React.Fragment>
+                    <Link to={"/upload"}>
+                      <li>
+                        <button className="btn btn-primary" size="sm">
+                          Upload
+                        </button>
+                      </li>
+                    </Link>
+                    <li>
+                      <button
+                        onClick={this.handleLogout}
+                        className="btn btn-primary"
+                        size="sm"
+                      >
+                        Sign out
+                      </button>
+                    </li>
+                  </React.Fragment>
                 ) : (
                   <Link to={"/signin"}>
                     <li>
@@ -82,7 +84,7 @@ export default class Navbar extends Component {
               </ul>
             </div>
           </div>
-          <PhotoSpan>Danielle lee photography</PhotoSpan>
+          <PhotoSpan>Danielle Lee photography</PhotoSpan>
         </nav>
         <Route exact path="upload" component={Upload} content="Upload file" />
         <Route exact path="signin" component={Signin} />

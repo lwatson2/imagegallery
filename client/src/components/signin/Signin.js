@@ -6,6 +6,7 @@ const FormWrapper = styled.div`
   @media only screen and (max-width: 479px) {
     width: 300px;
   }
+  background-color: #0099cc
   width: 400px;
   position: relative;
   top: 45px;
@@ -15,7 +16,7 @@ const FormWrapper = styled.div`
   padding: 50px 0px 82px 0px;
   align-items: center;
   margin: 0 auto;
-  border: 2px solid #0099cc;
+  border: 2px solid black;
   border-radius: 6px;
 `;
 const Email = styled.input`
@@ -27,9 +28,8 @@ const Email = styled.input`
   }
 `;
 const LoginButton = styled.button`
-  color: #0099cc;
   background: transparent;
-  border: 2px solid #0099cc;
+  border: 2px solid;
   border-radius: 6px;
   position: relative;
   padding: 10px 28px;
@@ -69,7 +69,8 @@ const Background = styled.div`
   background: ${props => props.backgroundImage};
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 92vh;
+  background-position: center;
 `;
 export default class Login extends Component {
   state = {
@@ -113,10 +114,12 @@ export default class Login extends Component {
     };
     try {
       const res = await axios.post("/user/login", { creds });
-
+      console.log(res.data);
       if (res.data.isLoggedIn === true) {
         console.log(this.props);
-        this.props.successfulLogin();
+        this.props.successfulLogin(res.data.user.email);
+        sessionStorage.setItem("isLoggedIn", true);
+        this.props.history.push("/");
       } else {
         console.log("test");
       }
