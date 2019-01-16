@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./Signin.css";
+import FloatingLabel from "../floatingLabel/FloatingLabel";
 import styled from "styled-components";
+
 const FormWrapper = styled.div`
   @media only screen and (max-width: 479px) {
     width: 300px;
@@ -25,6 +27,7 @@ const Email = styled.input`
     border: 0;
     border-bottom: 2px solid;
     background: transparent;
+    outline: 0;
   }
 `;
 const LoginButton = styled.button`
@@ -98,6 +101,7 @@ export default class Login extends Component {
     }
   };
   handlePassChange = event => {
+    console.log(event);
     const passValue = event.target.value;
 
     this.setState({ password: passValue });
@@ -106,13 +110,14 @@ export default class Login extends Component {
       return "";
     }
   };
-  handleLoginSubmit = async event => {
+  handleLoginSubmit = async (email, password, event) => {
     event.preventDefault();
     const creds = {
-      password: this.state.password,
-      email: this.state.email
+      password,
+      email
     };
-    try {
+    console.log(creds);
+    /* try {
       const res = await axios.post("/user/login", { creds });
       console.log(res.data);
       if (res.data.isLoggedIn === true) {
@@ -123,31 +128,13 @@ export default class Login extends Component {
       } else {
         console.log("test");
       }
-    } catch (error) {}
+    } catch (error) {} */
   };
   render() {
     return (
       <Background backgroundImage={`url(${this.state.image})`}>
         <FormWrapper>
-          <form onSubmit={this.handleLoginSubmit}>
-            <label for="email">Email</label>
-            <Email
-              type="text"
-              id="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleEmailChange}
-            />
-            <label for="pass">Password</label>
-            <input
-              type="password"
-              id="pass"
-              name="pass"
-              value={this.state.password}
-              onChange={this.handlePassChange}
-            />
-            <LoginButton>Submit</LoginButton>
-          </form>
+          <FloatingLabel handleLoginSubmit={this.handleLoginSubmit} />
         </FormWrapper>
       </Background>
     );

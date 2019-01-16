@@ -1,0 +1,55 @@
+label {
+  display: inline-block;
+  position: absolute;
+
+  transition: all 300ms ease-in;
+  color: #676767;
+}
+
+.field-active {
+  transform: translateY(-25px);
+  font-size: 0.9em;
+  color: #000;
+}
+
+.floating-label {
+  -webkit-appearance: none !important;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid;
+}
+.floating-label-active {
+  -webkit-appearance: none !important;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #0099cc;
+}
+.test {
+  position: relative;
+  top: 50px;
+  left: 50px;
+}
+input {
+  transition: border-bottom 300ms ease-in;
+}
+.password-active {
+  transform: translateY(-25px);
+  font-size: 0.9em;
+  color: #000;
+}
+.floating-password {
+  -webkit-appearance: none !important;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid;
+}
+.floating-password-active {
+  -webkit-appearance: none !important;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #0099cc;
+}
+
+.field-group {
+  padding-bottom: 50px;
+}
