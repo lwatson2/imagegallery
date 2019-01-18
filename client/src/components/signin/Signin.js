@@ -8,7 +8,7 @@ const FormWrapper = styled.div`
   @media only screen and (max-width: 479px) {
     width: 300px;
   }
-  background-color: #0099cc
+  background-color: #003559
   width: 400px;
   position: relative;
   top: 45px;
@@ -117,7 +117,7 @@ export default class Login extends Component {
       email
     };
     console.log(creds);
-    /* try {
+    try {
       const res = await axios.post("/user/login", { creds });
       console.log(res.data);
       if (res.data.isLoggedIn === true) {
@@ -128,7 +128,7 @@ export default class Login extends Component {
       } else {
         console.log("test");
       }
-    } catch (error) {} */
+    } catch (error) {}
   };
   render() {
     return (

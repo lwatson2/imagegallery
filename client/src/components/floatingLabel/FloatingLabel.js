@@ -15,26 +15,29 @@ const LoginButton = styled.button`
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.5s;
+  color: #010400
+  -webkit-transition-duration: 0.8s; /* Safari */
+  transition-duration: 0.9s;
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;
   &:hover {
-    background-color: #008cba;
-    color: white;
+    border: 2px solid #0099cc
+    color: #EAEAEA;
   }
   @media only screen and (max-width: 479px) {
-    background-color: #008cba;
-    color: white;
+    background-color: #0099cc;
+    color: #010400;
     padding: 8px 20px;
     top: 14px;
     left: 46px;
+    border: 2px solid #0099cc;
     font-size: 14px;
   }
   @media only screen and (min-width: 480px) and (max-width: 768px) {
-    background-color: #008cba;
-    color: white;
+    background-color: #0099cc;
+    color: #010400;
+    border: 2px solid #0099cc
     top: 35px;
     left: 38px;
     padding: 10px 25px;
@@ -46,38 +49,43 @@ export default class FloatingLabel extends Component {
     emailValue: "",
     passActive: false,
     passValue: "",
-    fieldActive: false
+    emailActive: false
   };
   activateField = value => {
     if (value === "pass") {
       this.setState({ passActive: true });
     } else {
-      this.setState({ fieldActive: true });
+      this.setState({ emailActive: true });
     }
   };
-  disableFocus = (e, value) => {
-    if (e === "pass") {
+  disableFocus = e => {
+    if (e === "pass" && this.state.passValue === "") {
       this.setState({ passActive: false });
     }
-    if (e === "email") {
-      this.setState({ fieldActive: false });
+    if (e === "email" && this.state.emailValue === "") {
+      this.setState({ emailActive: false });
+    }
+  };
+  disablePassFocus = e => {
+    if (e.target.value === "") {
+      this.setState({ passActive: false });
+    }
+  };
+  disableEmailFocus = e => {
+    if (e.target.value === "") {
+      this.setState({ emailActive: false });
     }
   };
   handleEmailChange = e => {
-    console.log(e.target.value);
-
     this.setState({ emailValue: e.target.value });
-    this.activateField();
     e.preventDefault();
   };
   handlePassChange = e => {
-    console.log(e.target.value);
     this.setState({ passValue: e.target.value });
-    this.activateField();
     e.preventDefault();
   };
   render() {
-    const { emailValue, passValue } = this.state;
+    const { emailValue, passValue, emailActive, passActive } = this.state;
     return (
       <div className="test">
         <form
@@ -87,28 +95,28 @@ export default class FloatingLabel extends Component {
         >
           <div className="field-group">
             <label
-              onClick={() => this.activateEmailField("email")}
-              className={this.state.fieldActive ? "field-active" : ""}
+              onClick={() => this.activateField("email")}
+              className={emailActive ? "field-active" : ""}
             >
               Email
             </label>
             <input
               className={
-                this.state.fieldActive
+                this.state.emailActive
                   ? "floating-label-active"
                   : "floating-label"
               }
               type="text"
               value={this.state.inputValue}
-              onFocus={() => this.activateEmailField("email")}
+              onFocus={() => this.activateField("email")}
               onBlur={() => this.disableFocus("email")}
               onChange={this.handleEmailChange}
             />
           </div>
           <div className="field-group">
             <label
-              onCLick={this.activatePassField}
-              className={this.state.passActive ? "password-active" : ""}
+              onClick={() => this.activateField("pass")}
+              className={passActive ? "password-active" : ""}
             >
               Password
             </label>
@@ -118,10 +126,10 @@ export default class FloatingLabel extends Component {
                   ? "floating-password-active"
                   : "floating-password"
               }
-              type="text"
+              type="password"
               value={this.state.inputValue}
-              onFocus={() => this.activatePassField}
-              onBlur={() => this.disablePassFocus}
+              onFocus={() => this.activateField("pass")}
+              onBlur={() => this.disableFocus("pass")}
               onChange={this.handlePassChange}
             />
           </div>
