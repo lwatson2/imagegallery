@@ -30,16 +30,16 @@ const Image = styled.img`
 `;
 const Container = styled.div`
   @media only screen and (max-width: 479px) {
-    height: 300px;
+    height: 370px;
     width: 100%;
   }
   @media only screen and (min-width: 480px) and (max-width: 767px) {
-    height: 400px;
+    height: 468px;
   }
   @media only screen and (min-width: 768px) and (max-width: 991px) {
-    height: 400px;
+    height: 479px;
   }
-  height: 400px;
+  height: 500px;
 `;
 const Background = styled.div`
   @media only screen and (max-width: 767px) {
@@ -108,7 +108,7 @@ export default class ImageGallery extends Component {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     const { images, isLoaded } = this.state;
     let settings = {
-      dots: true,
+      dots: false,
       arrows: true,
       infinite: true,
       speed: 500,

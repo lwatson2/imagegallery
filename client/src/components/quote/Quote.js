@@ -4,6 +4,7 @@ const QuoteStyle = styled.h2`
   font-family: "Arizonia", cursive;
 `;
 const QuoteContainer = styled.div`
+  padding-top: 40px
   position: relative;
   @media only screen and (min-width: 768px) and (max-width: 991px) {
     left: 102px;

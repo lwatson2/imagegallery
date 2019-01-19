@@ -43,13 +43,18 @@ const LoginButton = styled.button`
     padding: 10px 25px;
   }
 `;
-
+const ErrorMessage = styled.span`
+  color: #bb0000;
+  position: relative;
+  bottom: 30px;
+`;
 export default class FloatingLabel extends Component {
   state = {
     emailValue: "",
     passActive: false,
     passValue: "",
-    emailActive: false
+    emailActive: false,
+    required: false
   };
   activateField = value => {
     if (value === "pass") {
@@ -66,16 +71,7 @@ export default class FloatingLabel extends Component {
       this.setState({ emailActive: false });
     }
   };
-  disablePassFocus = e => {
-    if (e.target.value === "") {
-      this.setState({ passActive: false });
-    }
-  };
-  disableEmailFocus = e => {
-    if (e.target.value === "") {
-      this.setState({ emailActive: false });
-    }
-  };
+
   handleEmailChange = e => {
     this.setState({ emailValue: e.target.value });
     e.preventDefault();
@@ -84,15 +80,30 @@ export default class FloatingLabel extends Component {
     this.setState({ passValue: e.target.value });
     e.preventDefault();
   };
+  handleLogin = e => {
+    e.preventDefault();
+    const { emailValue, passValue } = this.state;
+    {
+      emailValue === "" || passValue === ""
+        ? this.setState({ required: true })
+        : this.props.handleLoginSubmit({ emailValue, passValue });
+    }
+  };
   render() {
     const { emailValue, passValue, emailActive, passActive } = this.state;
     return (
-      <div className="test">
-        <form
-          onSubmit={() =>
-            this.props.handleLoginSubmit({ emailValue, passValue })
-          }
-        >
+      <div>
+        {this.props.error ? (
+          <ErrorMessage>Invalid Email / Password. </ErrorMessage>
+        ) : (
+          ""
+        )}
+        {this.state.required ? (
+          <ErrorMessage>Both fields are required. </ErrorMessage>
+        ) : (
+          ""
+        )}
+        <form onSubmit={this.handleLogin}>
           <div className="field-group">
             <label
               onClick={() => this.activateField("email")}

@@ -9,9 +9,7 @@ const images = require("./routes/api/images");
 const users = require("./routes/api/users");
 const path = require("path");
 const multer = require("multer");
-const GridFsStorage = require("multer-gridfs-storage");
-const Grid = require("gridfs-stream");
-const methodOverride = require("method-override");
+
 const crypto = require("crypto");
 const app = express();
 

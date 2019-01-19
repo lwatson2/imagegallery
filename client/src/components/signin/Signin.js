@@ -77,9 +77,8 @@ const Background = styled.div`
 `;
 export default class Login extends Component {
   state = {
-    email: "",
-    password: "",
-    image: []
+    image: [],
+    error: false
   };
   componentDidMount = () => {
     this.getImage();
@@ -91,15 +90,7 @@ export default class Login extends Component {
       this.setState({ image: fetchImage.data[0].Link });
     } catch (error) {}
   };
-  handleEmailChange = event => {
-    const emailValue = event.target.value;
 
-    this.setState({ email: emailValue });
-
-    if (!emailValue) {
-      return "";
-    }
-  };
   handlePassChange = event => {
     console.log(event);
     const passValue = event.target.value;
@@ -111,12 +102,11 @@ export default class Login extends Component {
     }
   };
   handleLoginSubmit = async (email, password, event) => {
-    event.preventDefault();
     const creds = {
-      password,
-      email
+      email: email.emailValue,
+      password: email.passValue
     };
-    console.log(creds);
+    console.log(password);
     try {
       const res = await axios.post("/user/login", { creds });
       console.log(res.data);
@@ -125,8 +115,8 @@ export default class Login extends Component {
         this.props.successfulLogin(res.data.user.email);
         sessionStorage.setItem("isLoggedIn", true);
         this.props.history.push("/");
-      } else {
-        console.log("test");
+      } else if (res.data.error === true) {
+        this.setState({ error: true });
       }
     } catch (error) {}
   };
@@ -134,7 +124,10 @@ export default class Login extends Component {
     return (
       <Background backgroundImage={`url(${this.state.image})`}>
         <FormWrapper>
-          <FloatingLabel handleLoginSubmit={this.handleLoginSubmit} />
+          <FloatingLabel
+            error={this.state.error}
+            handleLoginSubmit={this.handleLoginSubmit}
+          />
         </FormWrapper>
       </Background>
     );

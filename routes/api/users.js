@@ -39,8 +39,10 @@ router.post("/login", async (req, res) => {
       user
     });
   } catch (error) {
+    console.log("error");
     res.json({
-      isLoggedIn: false
+      isLoggedIn: false,
+      error: true
     });
   }
 });

@@ -23,6 +23,7 @@ class App extends Component {
   };
   logout = () => {
     sessionStorage.removeItem("isLoggedIn");
+    this.props.history.push("/");
   };
   componentDidMount() {
     console.log(sessionStorage.getItem("isLoggedIn"));
@@ -32,7 +33,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Navabars logout={this.logout} />
+          <Navabars />
           <Switch>
             <Route
               exact

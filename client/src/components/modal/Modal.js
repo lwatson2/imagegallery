@@ -35,7 +35,7 @@ export default class Modal extends Component {
           opacity: this.props.show ? "1" : "0"
         }}
       >
-        <div className="modal-header">
+        <div className="modal-head">
           <span className="close-modal-btn" onClick={this.props.close}>
             ×
           </span>

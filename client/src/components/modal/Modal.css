@@ -7,14 +7,13 @@
   width: 66%;
 }
 
-.modal-header {
+.modal-head {
   background: #263238;
   height: 40px;
   line-height: 40px;
   padding: 5px 20px;
   text-align: right;
   display: flex;
-
   border-bottom: 1px solid #e9ecef;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
@@ -32,7 +31,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
   /* flex-wrap: wrap; */
   border-top: 1px solid #e9ecef;
 }

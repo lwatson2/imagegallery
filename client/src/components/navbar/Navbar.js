@@ -13,18 +13,22 @@ const PhotoSpan = styled.span`
 `;
 export default class Navbar extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    isSignedIn: false
   };
-  handleLogout = () => {
-    console.log("negative");
-    this.props.logout();
+  componentDidMount = () => {
+    this.setState({ isSignedIn: sessionStorage.getItem("isLoggedIn") });
+  };
+  logout = () => {
+    sessionStorage.removeItem("isLoggedIn");
+    console.log(sessionStorage.getItem("isLoggedIn"));
+    window.location.reload();
   };
   toggleNav = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
   render() {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
-    console.log(isLoggedIn);
     const show = this.state.isOpen ? "show" : "";
     return (
       <div>
@@ -64,7 +68,7 @@ export default class Navbar extends Component {
                     </Link>
                     <li>
                       <button
-                        onClick={this.handleLogout}
+                        onClick={this.logout}
                         className="btn btn-primary"
                         size="sm"
                       >
