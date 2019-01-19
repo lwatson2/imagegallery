@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "./Modal.css";
 
 export default class Modal extends Component {
@@ -20,9 +19,7 @@ export default class Modal extends Component {
       if (data.message === "success") {
         this.setState({ loading: false });
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   render() {
     return (

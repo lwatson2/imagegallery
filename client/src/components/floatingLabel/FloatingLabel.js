@@ -118,7 +118,7 @@ export default class FloatingLabel extends Component {
                   : "floating-label"
               }
               type="text"
-              value={this.state.inputValue}
+              value={emailValue}
               onFocus={() => this.activateField("email")}
               onBlur={() => this.disableFocus("email")}
               onChange={this.handleEmailChange}
@@ -138,7 +138,7 @@ export default class FloatingLabel extends Component {
                   : "floating-password"
               }
               type="password"
-              value={this.state.inputValue}
+              value={passValue}
               onFocus={() => this.activateField("pass")}
               onBlur={() => this.disableFocus("pass")}
               onChange={this.handlePassChange}

@@ -34,14 +34,13 @@ const upload = multer({
 
 router.get("/getimages", function(req, res) {
   const Image = db.conn.model("imagesSchema", image.Image);
-  Image.find({}).then(function(images) {
+  Image.find({}).then(images => {
     res.json({ images });
   });
 });
 
 router.post("/delete", async function(req, res) {
   const { itemKey } = req.body.params;
-  console.log(itemKey);
   const param = {
     Bucket: process.env.BUCKET,
     Key: itemKey
@@ -59,17 +58,14 @@ router.post("/delete", async function(req, res) {
       }
     });
     res.json({ message: "success" });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 });
 router.get("/RandomImage", async function(req, res) {
   await db.conn
     .collection("imagesschemas")
     .aggregate([{ $sample: { size: 1 } }])
-    .toArray(function(err, docs) {
+    .toArray((err, docs) => {
       if (err) {
-        console.log(err);
       } else {
         res.status(200).json(docs);
       }

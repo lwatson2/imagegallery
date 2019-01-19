@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 const UploadWrapper = styled.div`
   @media only screen and (max-width: 479px) {
@@ -117,10 +116,7 @@ export default class Upload extends Component {
     value: "Upload file...",
     submitted: false
   };
-  componentDidMount = () => {
-    const value = "C:\fakepathDestiny-2.jpg";
-    console.log(/[^\\]*$/.exec(value)[0]);
-  };
+  componentDidMount = () => {};
 
   handleFile = e => {
     let n = e.target.value;
@@ -132,7 +128,6 @@ export default class Upload extends Component {
     setTimeout(() => {
       this.setState(prev => ({ submitted: prev.submitted }));
     }, 1000);
-    console.log(this.state);
   };
   handleSubmit = e => {
     this.props.history.push("/");

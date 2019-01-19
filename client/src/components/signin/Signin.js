@@ -21,52 +21,6 @@ const FormWrapper = styled.div`
   border: 2px solid black;
   border-radius: 6px;
 `;
-const Email = styled.input`
-  margin-bottom: 10px;
-  &:focus {
-    border: 0;
-    border-bottom: 2px solid;
-    background: transparent;
-    outline: 0;
-  }
-`;
-const LoginButton = styled.button`
-  background: transparent;
-  border: 2px solid;
-  border-radius: 6px;
-  position: relative;
-  padding: 10px 28px;
-  top: 40px;
-  left: 34px;
-  text-align: center;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.5s;
-  cursor: pointer;
-  text-decoration: none;
-  text-transform: uppercase;
-  &:hover {
-    background-color: #008cba;
-    color: white;
-  }
-  @media only screen and (max-width: 479px) {
-    background-color: #008cba;
-    color: white;
-    padding: 8px 20px;
-    top: 14px;
-    left: 46px;
-    font-size: 14px;
-  }
-  @media only screen and (min-width: 480px) and (max-width: 768px) {
-    background-color: #008cba;
-    color: white;
-    top: 35px;
-    left: 38px;
-    padding: 10px 25px;
-  }
-`;
 
 const Background = styled.div`
   background: ${props => props.backgroundImage};
@@ -82,7 +36,6 @@ export default class Login extends Component {
   };
   componentDidMount = () => {
     this.getImage();
-    console.log(this.props);
   };
   getImage = async () => {
     try {
@@ -92,7 +45,6 @@ export default class Login extends Component {
   };
 
   handlePassChange = event => {
-    console.log(event);
     const passValue = event.target.value;
 
     this.setState({ password: passValue });
@@ -101,12 +53,11 @@ export default class Login extends Component {
       return "";
     }
   };
-  handleLoginSubmit = async (email, password, event) => {
+  handleLoginSubmit = async (email, event) => {
     const creds = {
       email: email.emailValue,
       password: email.passValue
     };
-    console.log(password);
     try {
       const res = await axios.post("/user/login", { creds });
       console.log(res.data);

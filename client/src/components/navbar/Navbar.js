@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Route, Link, Switch } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import Upload from "./../upload/Upload";
-import { Button } from "reactstrap";
 import Signin from "../signin/Signin";
 
 const PhotoSpan = styled.span`
@@ -21,7 +20,6 @@ export default class Navbar extends Component {
   };
   logout = () => {
     sessionStorage.removeItem("isLoggedIn");
-    console.log(sessionStorage.getItem("isLoggedIn"));
     window.location.reload();
   };
   toggleNav = () => {

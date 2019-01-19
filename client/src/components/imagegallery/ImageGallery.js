@@ -4,7 +4,6 @@ import styled from "styled-components";
 import "./ImageGallery.css";
 import Slider from "react-slick";
 import Modal from "./../modal/Modal";
-const url = "https://s3-us-east-2.amazonaws.com/imagegallerynode/";
 
 const Image = styled.img`
 @media only screen and (max-width: 479px){
@@ -77,12 +76,11 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate = (prevState, prevProps) => {
-    if (this.state.isDeleted == true) {
+    if (this.state.isDeleted === true) {
       this.getImages();
     }
   };
   getImages = async () => {
-    let reversed = [];
     await axios.get("/image/getimages").then(all => {
       this.setState({
         images: all.data.images,
@@ -90,18 +88,15 @@ export default class ImageGallery extends Component {
         isDeleted: false
       });
     });
-    console.log(this.state.images);
   };
   showModal = image => {
     this.setState({ isShowing: true, image: image.Key });
   };
 
   closeModal = () => {
-    console.log("test close");
     this.setState({ isShowing: false });
   };
   deletedItem = () => {
-    console.log("test delete ");
     this.setState({ isShowing: false, isDeleted: true });
   };
   render() {
@@ -149,11 +144,7 @@ export default class ImageGallery extends Component {
         <Slider ref={slider => (this.slider = slider)} {...settings}>
           {images.map(image => (
             <Container key={image.Key}>
-              <Image
-                onClick={() => console.log(image.Key)}
-                src={image.Link}
-                alt="test"
-              />
+              <Image src={image.Link} alt="test" />
               {isLoggedIn ? (
                 <ModalContainer>
                   <ModalBtn

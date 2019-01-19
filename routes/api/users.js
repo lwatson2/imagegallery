@@ -21,17 +21,13 @@ router.post("/signup", (req, res) => {
       try {
         const savedItem = await newUser.save();
         res.send(savedItem);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     });
   });
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body.creds;
-  console.log(email, "email", password, "password");
   try {
     const user = await auth.authenticate(email, password);
     res.json({
@@ -39,7 +35,6 @@ router.post("/login", async (req, res) => {
       user
     });
   } catch (error) {
-    console.log("error");
     res.json({
       isLoggedIn: false,
       error: true
