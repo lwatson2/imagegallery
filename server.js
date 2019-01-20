@@ -16,7 +16,9 @@ const app = express();
 app.use(bodyParser.json());
 
 //Connect to mongo db
-const conn = mongoose.createConnection(process.env.MONGODB_URI);
+const conn = mongoose.createConnection(process.env.MONGODB_URI, {
+  useNewUrlParser: true
+});
 app.use("/", router);
 app.use("/image", images);
 
