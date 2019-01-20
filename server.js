@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(`Server started on port ${process.env.PORT}`);
 });
 module.exports.conn = conn;
