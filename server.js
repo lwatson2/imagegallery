@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -8,15 +7,16 @@ const images = require("./routes/api/images");
 const users = require("./routes/api/users");
 const path = require("path");
 const multer = require("multer");
-require("dotenv").config();
 const crypto = require("crypto");
 const app = express();
+const MONGODB_URI =
+  "mongodb://Logan:logan1@ds211724.mlab.com:11724/image_gallery";
 
 // Middleware
 app.use(bodyParser.json());
 
 //Connect to mongo db
-const conn = mongoose.createConnection(process.env.MONGODB_URI, {
+const conn = mongoose.createConnection(MONGODB_URI, {
   useNewUrlParser: true
 });
 app.use("/", router);
