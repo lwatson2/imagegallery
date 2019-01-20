@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.371.0",
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
     "dotenv": "^6.2.0",
