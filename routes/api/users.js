@@ -12,7 +12,7 @@ router.post("/signup", (req, res) => {
   const User = db.conn.model("User", user.User);
   const newUser = new User({
     email,
-    password: config.PASS
+    password: "rocky"
   });
   bcrypt.genSalt(saltRounds, (err, salt) => {
     bcrypt.hash(newUser.password, salt, async function(err, hash) {
