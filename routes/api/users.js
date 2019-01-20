@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const bcrypt = require("bcrypt");
-const config = require("../../config");
 const auth = require("../../auth");
 const saltRounds = 10;
 const router = express.Router();
