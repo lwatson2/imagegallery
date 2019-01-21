@@ -40,7 +40,7 @@ export default class Modal extends Component {
         <div className="modal-body">
           <p>{this.props.children}</p>
         </div>
-        <div className="modal-footer">
+        <div className="modal-footers">
           <form onSubmit={this.handleSubmit}>
             <button
               type="submit"

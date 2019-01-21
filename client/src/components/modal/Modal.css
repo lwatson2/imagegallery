@@ -1,3 +1,8 @@
+/* @media only screen and (min-width: 991px) {
+  .modal-wrapper {
+    width: 50%;
+  }
+} */
 .modal-wrapper {
   background: white;
   border: 1px solid #d0cccc;
@@ -24,7 +29,7 @@
   text-align: center;
 }
 
-.modal-footer {
+.modal-footers {
   background: #263238;
   height: 35px;
   padding: 15px;

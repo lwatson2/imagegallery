@@ -36,6 +36,9 @@ const upload = multer({
 });
 
 router.get("/getimages", function(req, res) {
+  /*  if (error) {
+    console.log(error.message, error.data);
+  } */
   const Image = db.conn.model("imagesSchema", image.Image);
   Image.find({}).then(images => {
     res.json({ images });
