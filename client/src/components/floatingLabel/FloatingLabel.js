@@ -32,7 +32,7 @@ const LoginButton = styled.button`
     top: 14px;
     left: 46px;
     border: 2px solid #0099cc;
-    font-size: 14px;
+    font-size: 15px;
   }
   @media only screen and (min-width: 480px) and (max-width: 768px) {
     background-color: #0099cc;
