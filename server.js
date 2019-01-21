@@ -9,14 +9,12 @@ const path = require("path");
 const multer = require("multer");
 const crypto = require("crypto");
 const app = express();
-const MONGODB_URI =
-  "mongodb://Logan:logan1@ds211724.mlab.com:11724/image_gallery";
-
+const mongodb_uri = process.env["MONGODB_URI"];
 // Middleware
 app.use(bodyParser.json());
 
 //Connect to mongo db
-const conn = mongoose.createConnection(MONGODB_URI, {
+const conn = mongoose.createConnection(mongodb_uri, {
   useNewUrlParser: true
 });
 app.use("/", router);
