@@ -26,10 +26,6 @@ app.use("/user", users);
 if (process.env.NODE_ENV === "production") {
   //Set static folder
   app.use("/static", express.static(path.join(__dirname, "client/build")));
-
-  app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
 }
 
 app.listen(process.env.PORT || 5000, () => {
