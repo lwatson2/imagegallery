@@ -12,9 +12,7 @@ exports.authenticate = (email, password) => {
         if (err) {
           throw err;
         }
-        if (!isMatch) {
-          throw "Password did not match";
-        }
+
         resolve(findUser);
       });
     } catch (error) {
