@@ -6,20 +6,23 @@ const Image_Collection = "imagesschemas";
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
+const BUCKET = process.env["BUCKET"];
+const S3_SECRET_ACCESS_KEY = process.env["S3_SECRET_ACCESS_KEY"];
+const S3_ACCESS_KEY_ID = process.env["S3_ACCESS_KEY_ID"];
 const params = {
-  Bucket: process.env.BUCKET
+  Bucket: BUCKET
 };
 const db = require("../../server");
 const image = require("../../models/Image");
 aws.config.update({
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: S3_SECRET_ACCESS_KEY,
+  accessKeyId: S3_ACCESS_KEY_ID,
   region: "us-east-2",
   signatureVersion: "v4"
 });
 
 const s3 = new aws.S3({
-  params: { Bucket: process.env.BUCKET }
+  params: { Bucket: BUCKET }
 });
 const upload = multer({
   storage: multerS3({
@@ -42,7 +45,7 @@ router.get("/getimages", function(req, res) {
 router.post("/delete", async function(req, res) {
   const { itemKey } = req.body.params;
   const param = {
-    Bucket: process.env.BUCKET,
+    Bucket: BUCKET,
     Key: itemKey
   };
   try {
