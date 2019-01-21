@@ -12,7 +12,9 @@ exports.authenticate = (email, password) => {
         if (err) {
           throw err;
         }
-
+        if (!isMatch) {
+          reject("Authorization failed");
+        }
         resolve(findUser);
       });
     } catch (error) {
