@@ -11,6 +11,10 @@ const QuoteContainer = styled.div`
     top: 80px
     width: 600px;
   }
+  @media only screen and (max-width: 498px){
+    top: 40px;
+    left: 20px;
+  }
   @media only screen and (min-width: 992px) {
     width: 600px;
     left: 400px;

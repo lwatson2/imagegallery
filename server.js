@@ -22,8 +22,6 @@ app.use("/image", images);
 
 app.use("/user", users);
 
-//Serve static assets if in production
-
 //Set static folder
 app.use(express.static(__dirname + "/client/build"));
 
