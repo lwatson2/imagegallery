@@ -48,7 +48,7 @@ export default class Navbar extends Component {
           >
             <div className="navbar-nav bg-primary">
               <ul className="navbar-nav mr-auto">
-                <Link to={"/"}>
+                <Link to="/">
                   <li>
                     <button className="btn btn-primary" size="sm">
                       Home
@@ -57,7 +57,7 @@ export default class Navbar extends Component {
                 </Link>
                 {isLoggedIn ? (
                   <React.Fragment>
-                    <Link to={"/upload"}>
+                    <Link to="/upload">
                       <li>
                         <button className="btn btn-primary" size="sm">
                           Upload
@@ -75,7 +75,7 @@ export default class Navbar extends Component {
                     </li>
                   </React.Fragment>
                 ) : (
-                  <Link to={"/signin"}>
+                  <Link to="/signin">
                     <li>
                       <button className="btn btn-primary" size="sm">
                         Sign in
@@ -88,8 +88,6 @@ export default class Navbar extends Component {
           </div>
           <PhotoSpan>Danielle Lee photography</PhotoSpan>
         </nav>
-        <Route exact path="upload" component={Upload} content="Upload file" />
-        <Route exact path="signin" component={Signin} />
       </div>
     );
   }

@@ -26,7 +26,7 @@ const Background = styled.div`
   background: ${props => props.backgroundImage};
   background-repeat: no-repeat;
   background-size: cover;
-  height: 92vh;
+  height: 100vh;
   background-position: center;
 `;
 export default class Login extends Component {
@@ -60,9 +60,7 @@ export default class Login extends Component {
     };
     try {
       const res = await axios.post("/user/login", { creds });
-      console.log(res.data);
       if (res.data.isLoggedIn === true) {
-        console.log(this.props);
         this.props.successfulLogin(res.data.user.email);
         sessionStorage.setItem("isLoggedIn", true);
         this.props.history.push("/");

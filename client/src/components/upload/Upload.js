@@ -21,6 +21,10 @@ const UploadWrapper = styled.div`
   padding: 50px 4px 82px 66px;
   margin: 0 auto;
 `;
+const SignInMessage = styled.h1`
+  color: #0099cc;
+  padding-left: 18px;
+`;
 const InputUpload = styled.input`
   opacity: 0;
 `;
@@ -117,7 +121,7 @@ const Container = styled.div`
   background: ${props => props.backgroundImage};
   background-repeat: no-repeat;
   background-size: cover;
-  height: 92vh;
+  height: 100vh;
   background-position: center;
 `;
 export default class Upload extends Component {
@@ -153,31 +157,36 @@ export default class Upload extends Component {
   };
   render() {
     const { image } = this.state;
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     return (
       <Container backgroundImage={`url(${image})`}>
         <UploadWrapper>
-          <FileForm
-            action="/image/image-upload"
-            method="post"
-            encType="multipart/form-data"
-          >
-            <div>
-              <FileLabel>
-                <InputUpload
-                  onChange={this.handleFile}
-                  type="file"
-                  id="image"
-                  name="image"
-                />
-                <CustomFile>
-                  {this.state.submitted ? this.state.value : "Upload file..."}
-                </CustomFile>
-              </FileLabel>
-            </div>
-            <FileSubmit type="submit" value="Submit">
-              Submit
-            </FileSubmit>
-          </FileForm>
+          {isLoggedIn ? (
+            <FileForm
+              action="/image/image-upload"
+              method="post"
+              encType="multipart/form-data"
+            >
+              <div>
+                <FileLabel>
+                  <InputUpload
+                    onChange={this.handleFile}
+                    type="file"
+                    id="image"
+                    name="image"
+                  />
+                  <CustomFile>
+                    {this.state.submitted ? this.state.value : "Upload file..."}
+                  </CustomFile>
+                </FileLabel>
+              </div>
+              <FileSubmit type="submit" value="Submit">
+                Submit
+              </FileSubmit>
+            </FileForm>
+          ) : (
+            <SignInMessage>Please Sigin</SignInMessage>
+          )}
         </UploadWrapper>
       </Container>
     );
