@@ -5,19 +5,18 @@ const QuoteStyle = styled.h2`
 `;
 const QuoteContainer = styled.div`
   position: relative;
-  top: 80px
+  top: 35px;
+  margin-bottom: 22px;
+  margin: 0 auto;
   @media only screen and (min-width: 768px) and (max-width: 991px) {
-    left: 102px;
-    top: 80px
+    top: 35px;
     width: 600px;
   }
-  @media only screen and (max-width: 498px){
+  @media only screen and (max-width: 498px) {
     top: 40px;
-    left: 20px;
   }
   @media only screen and (min-width: 992px) {
     width: 600px;
-    left: 400px;
   }
 `;
 const Quote = props => {

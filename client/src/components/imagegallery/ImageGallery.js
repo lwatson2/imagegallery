@@ -57,8 +57,10 @@ const ModalBtn = styled.button`
   background-color: #ff2323;
   min-width: 100%;
   outline: 0;
+  color: hsl(209, 35%, 98%);
   border: 0;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 export default class ImageGallery extends Component {
